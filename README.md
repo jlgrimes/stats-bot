@@ -6,12 +6,12 @@ Bot for PokeStats tournaments
 
 Every tournament will run with the following procedure:
 
-1. Users register for the tournament using [`!register`](#\!register) inside of the respective text channel.
-2. Admins run [`!paid`](#\!paid) for every user that has paid.
-3. Admin runs [`!start`](#\!start) inside of the respective text channel to start the tournament. Pairings are DMd to everyone.
-4. Users report their match results with [`!report`](#\!report) (both users must report the match for the match to count as valid)
-5. If anyone drops, admins can run [`!drop`](#\!drop) to drop the player from the tournament.
-6. Admin runs [`!next-round`](#\!next-round) to start the next round. Repeat steps 4-6 until the tournament is over.
+1. Users register for the tournament using [`!register`](#register) inside of the respective text channel.
+2. Admins run [`!paid`](#paid) for every user that has paid.
+3. Admin runs [`!start`](#start) inside of the respective text channel to start the tournament. Pairings are DMd to everyone.
+4. Users report their match results with [`!report`](#report) (both users must report the match for the match to count as valid)
+5. If anyone drops, admins can run [`!drop`](#drop) to drop the player from the tournament.
+6. Admin runs [`!next-round`](#next-round) to start the next round. Repeat steps 4-6 until the tournament is over.
 7. Once the last round is reached, the standings will be sent out by the bot in the text channel of the tournament.
 
 ## Commands
@@ -40,7 +40,7 @@ Thanks for registering for [tournament name], [discord name]!
 Please Venmo $3 to @Brian-Chisholm37 to complete your registration.
 ```
 
-This will enter the user in the database with tag `hasnt-paid`. Once the user has paid, the [admin command `!paid`](#\!paid) will flag the user with the tag `paid`, meaning that they are ready to play in the tournament
+This will enter the user in the database with tag `hasnt-paid`. Once the user has paid, the [admin command `!paid`](#paid) will flag the user with the tag `paid`, meaning that they are ready to play in the tournament
 
 #### `!report`
 
