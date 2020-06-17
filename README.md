@@ -2,6 +2,8 @@
 
 Bot for PokeStats tournaments
 
+https://discord.com/oauth2/authorize?client_id=722939703967612999&scope=bot
+
 ## Procedure
 
 Every tournament will run with the following procedure:

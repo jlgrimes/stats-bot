@@ -1,0 +1,27 @@
+{
+  "name": "stats-bot",
+  "version": "1.0.0",
+  "description": "Discord bot for Pokestats",
+  "main": "bot.js",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "discord.js-commando": "github:discordjs/Commando",
+    "dotenv": "^8.2.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node bot.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/comp0cker/stats-bot.git"
+  },
+  "author": "Jared Grimes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/comp0cker/stats-bot/issues"
+  },
+  "homepage": "https://github.com/comp0cker/stats-bot#readme"
+}
