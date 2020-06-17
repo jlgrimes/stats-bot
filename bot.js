@@ -4,7 +4,7 @@ const { CommandoClient } = require('discord.js-commando');
 const path = require('path');
 
 const client = new CommandoClient({
-    commandPrefix: process.env.VERSION === 'dev' ? 'bede?' : 'bede',
+    commandPrefix: process.env.VERSION === 'dev' ? 'bebe?' : 'bebe',
     owner: '265515383773986817',
     invite: 'https://discord.com/oauth2/authorize?client_id=722939703967612999&scope=bot'
 });
