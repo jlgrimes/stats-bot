@@ -5,14 +5,14 @@ const path = require('path');
 
 const client = new CommandoClient({
     commandPrefix: process.env.VERSION === 'dev' ? 'bebe?' : 'bebe',
-    owner: '265515383773986817',
-    invite: 'https://discord.com/oauth2/authorize?client_id=722939703967612999&scope=bot'
+    owner: '265515383773986817'
 });
 
 client.registry
     .registerDefaultTypes()
     .registerGroups([
         ['user', 'User'],
+        ['admin', 'Administrator']
     ])
     .registerDefaultGroups()
     .registerCommandsIn(path.join(__dirname, 'commands'));
