@@ -1,5 +1,9 @@
+const Discord = require('discord.js');
 const { Command } = require('discord.js-commando');
-const { checkTableExists } = require('../../src/db/modules/tableChecks')
+const { Pool } = require('pg');
+const { checkTableExists, checkUserExists } = require('../../src/db/modules/tableChecks');
+const { createUser } = require('../../src/db/modules/users');
+const { registerUser } = require('../../src/db/modules/tournament');
 
 module.exports = class RegisterCommand extends Command {
     constructor(client) {
@@ -8,56 +12,82 @@ module.exports = class RegisterCommand extends Command {
             group: 'user',
             memberName: 'register',
             description: 'Register for the current tournament.',
-            args: [
-            ],
+            args: [],
             guildOnly: true,
         });
     }
 
-    async addPlayer(message, poolClient, tournamentName) {
+    async checkPlayerRegistered(message, poolClient, tournamentName) {
         try {
-            const discordUsername = message.author.id;
-            console.log(discordUsername);
+            const discordId = message.author.id;
 
             const fetchPlayerQuery = `
-            SELECT * FROM ${tournamentName} WHERE discordUsername='${discordUsername}'
+            SELECT * FROM ${tournamentName} WHERE discordId='${discordId}'
             `;
 
-            const res = await poolClient.query(fetchPlayerQuery)
+            const res = await poolClient.query(fetchPlayerQuery);
             if (res.rows.length > 0) {
-                message.reply(`You are already registered for tournament ${tournamentName}!`);
-                
+                return true;
             } else {
-                const insertQuery = `
-                    INSERT INTO ${tournamentName} (username, ign)
-                    VALUES ('${mentioned}', '${ign}');
-                    `;
-
-                    await client.query(insertQuery);
-                    message.reply(`${mentioned} in game name updated to ${ign}!`);
+                return false;
             }
         } catch (error) {
             console.log(error);
         }
     }
 
+    async register(message, poolClient) {
+
+    }
+
     async run(message) {
-        const pool = new Pool({
-            connectionString: process.env.DATABASE_URL,
-            ssl: {
-                rejectUnauthorized: false,
-            },
-        });
-        const poolClient = await pool.connect();
+        try {
+            const pool = new Pool({
+                connectionString: process.env.DATABASE_URL,
+                ssl: {
+                    rejectUnauthorized: false,
+                },
+            });
+    
+            const poolClient = await pool.connect();
+            const channelName = message.channel.name;
+    
+            // make sure the tournament is open
+            const tournamentExists = await checkTableExists(
+                poolClient,
+                channelName
+            );
+            if (!tournamentExists) {
+                message.author.send(
+                    `Tournament ${channelName} is not open, please wait to register!`
+                );
+                return;
+            }
+    
+            // make sure the player hasn't already registered
+            const playerRegistered = await this.checkPlayerRegistered(
+                message,
+                poolClient,
+                channelName
+            );
+            if (playerRegistered) {
+                message.author.send(
+                    `You are already registered for tournament ${channelName}!`
+                );
+                return;
+            }
+    
+            const userExistsInDatabase = await checkUserExists(message, poolClient);
+            if (!userExistsInDatabase) {
+                await createUser(message, channelName, poolClient);
+                message.author.send('User account created!')
+            }
 
-        const channelName = message.channel.name;
-        const tournamentExists = await checkTableExists(poolClient, channelName);
+            await registerUser(message, channelName, poolClient);
+            message.author.send(`Successfully registered for tournament ${channelName}, please remember to pay and submit deck lists!`)
 
-        if (!tournamentExists) {
-            message.reply(`Tournament ${channelName} is not open, please wait to register!`);
-            return;
+        } catch (error) {
+            console.log(error);
         }
-
-        message.reply('yuh');
     }
 };

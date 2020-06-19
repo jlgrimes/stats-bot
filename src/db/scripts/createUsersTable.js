@@ -13,7 +13,7 @@ client.connect();
 
 const query = `
 CREATE TABLE users (
-    discordName varchar(255),
+    discordId varchar(255),
     realName varchar(255),
     ptcgoName varchar(255)
 );

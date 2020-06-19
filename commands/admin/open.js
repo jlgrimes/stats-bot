@@ -20,7 +20,7 @@ module.exports = class RegisterCommand extends Command {
     async createTable(message, poolClient, tableName) {
         const query = `
         CREATE TABLE ${tableName} (
-            discordName varchar(255),
+            discordId varchar(255),
             paid boolean,
             matches varchar(65535)
         );

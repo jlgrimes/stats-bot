@@ -12,5 +12,22 @@ module.exports = {
         } catch (error) {
             return false;
         }
+    },
+    checkUserExists: async(message, poolClient) => {
+        const fetchUserQuery = `
+		SELECT * FROM users WHERE discordId='${message.author.id}'
+        `;
+        try {
+            const res = await poolClient.query(fetchUserQuery)
+            if (res.rows.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return false;
     }
 }
